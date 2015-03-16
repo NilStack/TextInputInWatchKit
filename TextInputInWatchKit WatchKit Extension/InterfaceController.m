@@ -11,6 +11,9 @@
 
 @interface InterfaceController()
 
+@property (weak, nonatomic) IBOutlet WKInterfaceButton *handleInputBtn;
+@property (weak, nonatomic) IBOutlet WKInterfaceLabel *messageLabel;
+
 @end
 
 
@@ -20,6 +23,22 @@
     [super awakeWithContext:context];
 
     // Configure interface objects here.
+}
+- (IBAction)handleInput {
+    
+    NSArray* perdefinedAnswer = @[@"I will call back later.", @"I'm in a meeting now."];
+    [self presentTextInputControllerWithSuggestions:perdefinedAnswer
+                                   allowedInputMode:WKTextInputModeAllowAnimatedEmoji
+                                         completion:^(NSArray *results) {
+                                             if (results && results.count > 0) {
+                                                 [self.messageLabel setText:[results objectAtIndex:0]];
+                                                 
+                                             }
+                                             else {
+                                                 NSLog(@"no input from user");
+                                             }
+                                         }];
+
 }
 
 - (void)willActivate {
@@ -31,6 +50,8 @@
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
 }
+
+
 
 @end
 
